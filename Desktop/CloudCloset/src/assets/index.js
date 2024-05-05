@@ -1,3 +1,4 @@
+import logo from "./ccc.png";
 import cloud from "./cloud.jpg";
 import brainwave from "./brainwave.svg";
 import check from "./check.svg";
@@ -146,4 +147,5 @@ export {
   telegram,
   twitter,
   cloud,
+  logo,
 };
