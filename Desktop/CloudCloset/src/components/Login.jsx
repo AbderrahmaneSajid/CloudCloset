@@ -10,6 +10,27 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+      console.log(user);
+      if (user) {
+        // You can optionally update user data in Firestore or perform other actions here
+      }
+      console.log("User logged in successfully!!");
+      toast.success("User logged in successfully!!", {
+        position: "top-center",
+      });
+      window.location.href = "/accueil"; // Redirect to the homepage after successful login
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message, {
+        position: "bottom-center",
+      });
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -27,6 +48,8 @@ const Login = () => {
       });
     }
   };
+
+  
   return (
     <>
   <Header />
@@ -67,6 +90,8 @@ const Login = () => {
       New user? <a href="/signup" className="text-white hover:underline">Register Here</a>
     </p>
   </form>
+  
+
 </>
 
   );

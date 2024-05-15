@@ -5,12 +5,15 @@ import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { FacebookAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import Header from "./Header";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
 
+  
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -20,8 +23,8 @@ const Signup = () => {
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
-          firstName: fname,
-          lastName: lname,
+          firstName: user.displayName.split(" ")[0], // Retrieve first name from Google user profile
+          lastName: user.displayName.split(" ")[1], // Retrieve last name from Google user profile
         });
       }
       console.log('User Registered Successfully!!', result.user);
@@ -29,7 +32,7 @@ const Signup = () => {
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
-
+  
       console.log('LOGGED USER', result.user);
     } catch (error) {
       console.log(error)
@@ -38,7 +41,7 @@ const Signup = () => {
       });
     }
   }
-
+  
   const signInWithFacebook = async () => {
     try {
       const provider = new FacebookAuthProvider();
@@ -48,17 +51,18 @@ const Signup = () => {
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
-          firstName: fname,
-          lastName: lname,
+          firstName: user.displayName.split(" ")[0], // Retrieve first name from Facebook user profile
+          lastName: user.displayName.split(" ")[1], // Retrieve last name from Facebook user profile
         });
       }
+      
       console.log('User Registered Successfully!!', result.user);
       window.location.href = "/accueil";
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
-
-
+  
+  
     } catch (error) {
       console.log(error)
       toast.error(error.message, {
@@ -66,7 +70,8 @@ const Signup = () => {
       });
     }
   }
-
+  
+  
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -153,14 +158,14 @@ const Signup = () => {
   </form>
 
   <div className="mt-4 flex justify-center space-x-2">
-    <button onClick={signInWithGoogle} className="bg-transparent border-2 border-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-500 hover:text-white">
-      Sign In With Google
-    </button>
+        <button onClick={signInWithGoogle} className="bg-transparent border-2 border-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-500 hover:text-white">
+          <FontAwesomeIcon icon={faGoogle} className="mr-2" /> Sign In With Google
+        </button>
 
-    <button onClick={signInWithFacebook} className="bg-transparent border-2 border-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-500 hover:text-white">
-      Sign In With Facebook
-    </button>
-  </div>
+        <button onClick={signInWithFacebook} className="bg-transparent border-2 border-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-500 hover:text-white">
+          <FontAwesomeIcon icon={faFacebook} className="mr-2" /> Sign In With Facebook
+        </button>
+      </div>
 </>
 
 

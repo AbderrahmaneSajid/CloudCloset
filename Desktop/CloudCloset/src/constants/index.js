@@ -62,7 +62,7 @@ export const navigation = [
   {
     id: "5",
     title: "Sign in",
-    url: "login",
+    url: "/login",
     onlyMobile: true,
   },
 ];
@@ -74,9 +74,9 @@ export const notificationImages = [notification4, notification3, notification2];
 export const companyLogos = [yourlogo, yourlogo, yourlogo, yourlogo, yourlogo];
 
 export const brainwaveServices = [
-  "Photo generating",
-  "Photo enhance",
-  "Seamless Integration",
+  "Upload Files",
+  "Download Files",
+  "Share Files",
 ];
 
 export const brainwaveServicesIcons = [
