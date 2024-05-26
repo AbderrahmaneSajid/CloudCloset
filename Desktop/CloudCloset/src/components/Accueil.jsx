@@ -5,7 +5,25 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
 import NavLog from "./NavLog";
 import { Upload } from "react-feather";
+import { CircularProgress } from "@material-ui/core";
+
+const LoadingSpinner = () => {
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <CircularProgress color="secondary" />
+    </div>
+  );
+};
+
+
 function Accueil() {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the timeout duration as needed
+
+    return () => clearTimeout(timer);
+  }, []);
   const [userDetails, setUserDetails] = useState(null);
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
@@ -92,10 +110,11 @@ function Accueil() {
 
   return (
     <div className="flex justify-center items-center h-screen">
-  <div className="max-w-md mx-auto p-6 bg-transparent rounded-lg border-2 border-indigo-500">
+  
     <NavLog />
     {userDetails ? (
       <>
+      <div className="max-w-md mx-auto p-6 bg-transparent rounded-lg border-2 border-indigo-500">
         <div className="flex flex-col items-center mb-4">
           <img
             src={userDetails.profilePicture || "default-profile-picture-url"}
@@ -159,11 +178,12 @@ function Accueil() {
             Logout
           </button>
         </div>
+        </div>
       </>
     ) : (
-      <p className="text-lg text-center text-white">Loading...</p>
+      <LoadingSpinner />
     )}
-  </div>
+  
 </div>
 
   );
